@@ -1,0 +1,69 @@
+<div class="SiemInit" ng-controller="SiemApp">
+
+    <div id="mySidenav2" class="sidenav">
+        <a class="closebtn" onclick='document.getElementById("mySidenav2").style.width = "0";'>&times;</a>
+        <div class="sidenav-item">
+            <a ui-sref="welcome">Home</a>
+        </div>
+        <div ng-repeat="link in links" class="sidenav-item">
+            <a  ui-sref="app({linkId: link.title})">{{ link.title }} <span ng-if="link.sub_links.length">&#9660;</span></a>
+            <div class="sidenav-menu-sublinks">
+                <a ng-repeat="slink in link.sub_links track by $index"
+                   ng-click="slink.activated && $event.preventDefault(); slink.activated = true; vm.active_link = slink.title"
+                   ng-class="{active: vm.active_link == slink.title}"
+                   href="{{ replace_http(slink.url) }}" target="{{$index}}">{{slink.title}}</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container siem-top-panel">
+        <div class="siem-link" ng-if="linksWidth>=windowWidth">
+            <a onclick='document.getElementById("mySidenav2").style.width = "275px";'><img src="/domain/SiemApp/hamburger.png" style="max-width: 50px;" /></a>
+        </div>
+        <!--<div class="siem-logo-menu" ui-sref="welcome">-->
+            <!--<img src="/domain/UI/logos/SIEMonster_1.png" />-->
+        <!--</div>-->
+
+        <div class="siem-link" ng-if="linksWidth<windowWidth">
+            <a ui-sref="welcome">Home</a>
+        </div>
+
+        <div ng-repeat="link in links" class="siem-link" ng-class="{active: vm.active_link == link.title}" ng-if="linksWidth<windowWidth">
+            <a href="{{ replace_http(link.url) }}" target="{{ link.id }}"
+               ng-click="link.activated && $event.preventDefault(); link.activated = true; vm.active_link = link.title">{{ link.title }}
+                <span ng-if="link.sub_links.length" class="caret"></span></a>
+
+            <div class="siem-menu-sublinks">
+                <a ng-repeat="slink in link.sub_links track by $index"
+                   ng-click="slink.activated && $event.preventDefault(); slink.activated = true; vm.active_link = slink.title"
+                   ng-class="{active: vm.active_link == slink.title}"
+                   href="{{ replace_http(slink.url) }}" target="{{$index}}">{{slink.title}}</a>
+            </div>
+        </div>
+
+        <div class="siem-link logout-link">
+            <a ng-click="logout()">Logout</a>
+        </div>
+        <div class="siem-link logout-link">
+            <a ui-sref="profile">Profile</a>
+        </div>
+        <!--<div class="siem-logout" ng-class="{active: vm.active_link == link.title}">-->
+            <!--<a href="#" >Logout</a>-->
+        <!--</div>-->
+    </div>
+    <div class="page">
+        <dynamic-iframe ng-repeat="link in links" name="{{ link.id }}" class="siem-page"
+                        ng-show="vm.active_link == link.title" dynamic-iframe-src="{{ vm.active_link == link.title ? replace_http(link.url) : '' }}"></dynamic-iframe>
+        <div ng-repeat="link in links">
+            <dynamic-iframe ng-repeat="slink in link.sub_links track by $index" name="{{$index}}" class="siem-page"
+                            ng-show="vm.active_link == slink.title" dynamic-iframe-src="{{ vm.active_link == slink.title ? replace_http(slink.url) : '' }}"></dynamic-iframe>
+        </div>
+    </div>
+    <div class="welcome-container" ng-if="!links || !links.length">
+        <br/>
+        <b>Dashboards Loading...<br/>
+        <br/>
+        <a href="javascript: void(0)" ng-click="logout()">Logout</a>
+    </div>
+</div>

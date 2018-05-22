@@ -2,6 +2,8 @@ FROM ubuntu:14.04
 
 # install stable node.js from repo
 RUN apt-get update; apt-get install -y --force-yes nodejs nodejs-legacy npm git ssh-client libkrb5-dev dos2unix
+
+RUN npm config set registry="http://registry.npmjs.org/"
 RUN npm install -g bower gulp
 
 RUN mkdir -p /root/acembly

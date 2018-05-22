@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # install stable node.js from repo
 RUN apt-get update; apt-get install -y --force-yes nodejs nodejs-legacy npm git ssh-client libkrb5-dev dos2unix

@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 RUN echo 'deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx' > /etc/apt/sources.list.d/nginx.list; apt-get update;
 RUN apt-get install -y --force-yes psmisc inotify-tools dnsmasq git wget cron nginx=1.9.15-1~trusty
 

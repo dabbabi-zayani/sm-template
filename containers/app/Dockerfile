@@ -6,6 +6,7 @@ RUN apt-get update; apt-get install -y --force-yes nodejs git ssh-client python 
 
 RUN mkdir -p /root/app
 
+RUN npm config set registry="http://registry.npmjs.org/"
 RUN npm install -g bower gulp ionic cordova
 
 COPY ./root/app/package.json /root/app
